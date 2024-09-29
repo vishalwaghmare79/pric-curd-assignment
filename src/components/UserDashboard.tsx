@@ -91,61 +91,70 @@ function UserDashboard() {
   }, []);
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">User Dashboard</h1>
-      <div className="mb-6">
+    <div className="p-6 max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">User Dashboard</h1>
+
+      <div className="mb-8 flex flex-wrap space-y-4 sm:space-y-0 sm:space-x-4">
         <input
           type="text"
           placeholder="Name"
           value={newUser.name}
           onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-          className="border p-2 mr-2"
+          className="border border-gray-300 p-3 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent w-full sm:w-auto"
         />
         <input
           type="email"
           placeholder="Email"
           value={newUser.email}
           onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-          className="border p-2 mr-2"
+          className="border border-gray-300 p-3 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent w-full sm:w-auto"
         />
+
         <button
           onClick={editUser ? updateUser : saveUser}
-          className="bg-blue-500 text-white p-2"
+          className="bg-blue-500 text-white p-3 rounded-md shadow-md hover:bg-blue-600 transition duration-300"
         >
           {editUser ? "Update User" : "Add User"}
         </button>
+
         {editUser && (
           <button
             onClick={cancelEdit}
-            className="bg-gray-500 text-white p-2 ml-2"
+            className="bg-gray-500 text-white p-3 rounded-md shadow-md hover:bg-gray-600 transition duration-300 ml-2"
           >
             Cancel
           </button>
         )}
       </div>
-      <table className="min-w-full table-auto">
-        <thead>
+
+      <table className="min-w-full table-auto bg-white shadow-md rounded-md overflow-hidden">
+        <thead className="bg-gray-100">
           <tr>
-            <th className="px-4 py-2">Name</th>
-            <th className="px-4 py-2">Email</th>
-            <th className="px-4 py-2">Actions</th>
+            <th className="px-6 py-3 text-left text-gray-700">Name</th>
+            <th className="px-6 py-3 text-left text-gray-700">Email</th>
+            <th className="px-6 py-3 text-left text-gray-700">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
-            <tr key={user.id} className="border-b">
-              <td className="px-4 py-2">{user.name}</td>
-              <td className="px-4 py-2">{user.email}</td>
-              <td className="px-4 py-2">
+          {users.map((user, index) => (
+            <tr
+              key={user.id}
+              className={`${
+                index % 2 === 0 ? "bg-gray-50" : "bg-white"
+              } border-b`}
+            >
+              <td className="px-6 py-4">{user.name}</td>
+              <td className="px-6 py-4">{user.email}</td>
+              <td className="px-6 py-4 flex space-x-2">
                 <button
                   onClick={() => selectUserToEdit(user)}
-                  className="bg-yellow-500 text-white p-2 mr-2"
+                  className="bg-yellow-500 text-white p-2 rounded-md shadow-md hover:bg-yellow-600 transition duration-300"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => deleteUser(user.id)}
-                  className="bg-red-500 text-white p-2"
+                  className="bg-red-500 text-white p-2 rounded-md shadow-md hover:bg-red-600 transition duration-300"
                 >
                   Delete
                 </button>

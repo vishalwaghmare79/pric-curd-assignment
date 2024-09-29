@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## **Assignment Solution**
 
-## Getting Started
+#### **User Dashboard Application (CRUD operations)**
 
-First, run the development server:
+The app allows you to perform the following CRUD operations:
+1. **Create:** Add a new user with `name` and `email`.
+2. **Read:** Fetch and display users from the Firebase Realtime Database.
+3. **Update:** Edit an existing user’s details.
+4. **Delete:** Remove a user from the system.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+#### **Docker Containerization:**
+
+- **Dockerfile:** 
+    - A Dockerfile is included to containerize the application.
+    - The Docker container runs the app on port 3000.
+    - Dockerfile contains the build steps to ensure that the production build is optimized and the application can be deployed.
+
+**Dockerfile Example:**
+```dockerfile
+# Use the official Node.js image from Docker Hub
+FROM node:latest
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy only package.json and package-lock.json (if available)
+COPY package*.json ./
+
+# Install node modules
+RUN npm install --silent
+
+# Copy the rest of the application files to the working directory
+COPY . .
+
+# Build the Next.js app for production
+RUN npm run build
+
+# Expose the port that the app runs on
+EXPOSE 3000
+
+# Start the Next.js app in production mode
+CMD ["npm", "run", "start"]
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### **3. Documentation:**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#### **Summary of the project and steps for setup**
 
-## Learn More
+```markdown
+# User Dashboard (CRUD Application)
 
-To learn more about Next.js, take a look at the following resources:
+This is a simple user dashboard to manage user data using Firebase as a backend. The app performs CRUD operations and is containerized using Docker for easy deployment.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Features:
+- Create a new user with name and email.
+- Read existing user data.
+- Update user information.
+- Delete a user from the database.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Technologies:
+- React.js (Frontend)
+- Firebase Realtime Database (Backend)
+- Docker (Containerization)
+- Axios (HTTP Requests)
 
-## Deploy on Vercel
+## How to Run:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Prerequisites:
+1. Install Docker.
+2. Clone this repository.
+3. Install Node.js (for local development, optional).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Running the app with Docker:
+1. Build the Docker image:
+   ```bash
+   docker build -t user-dashboard .
+   ```
+
+2. Run the Docker container:
+   ```bash
+   docker run -p 3000:3000 user-dashboard
+   ```
+
+3. Open [http://localhost:3000](http://localhost:3000) to view the app.
+
+## API Endpoints (Using Firebase Realtime Database):
+
+### Fetch Users (GET):
+```
+GET https://userdashboardcurd-35d3e-default-rtdb.firebaseio.com/users.json
+```
+
+### Create User (POST):
+```
+POST https://userdashboardcurd-35d3e-default-rtdb.firebaseio.com/users.json
+Body: { "name": "User Name", "email": "user@example.com" }
+```
+
+### Update User (PUT):
+```
+PUT https://userdashboardcurd-35d3e-default-rtdb.firebaseio.com/users/{id}.json
+Body: { "name": "Updated Name", "email": "updated@example.com" }
+```
+
+### Delete User (DELETE):
+```
+DELETE https://userdashboardcurd-35d3e-default-rtdb.firebaseio.com/users/{id}.json
+```
